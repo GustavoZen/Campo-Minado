@@ -59,6 +59,17 @@ def PrimeiroClique(num):
         element.config(command=partial(Clique,lista[indice]))
     Clique(lista[num])
 
+def botoesclicados(lista):
+    aux = 0
+    for element in lista:
+        if element.clicado:
+            aux+=1
+    return aux
+
+def mostrarbombas(lista):
+    for element in lista:
+        if element.bomba:
+            element.config(background="#ff0000")
 def Clique(botao):
     if botao is not None:
         if (botao.bomba == True):
@@ -69,6 +80,9 @@ def Clique(botao):
         else:
             if not botao.clicado:
                 botao.clicado = True
+                if(botoesclicados(lista) == tamanho*tamanho-bombas):
+                    print("Parabens Você Ganhou")
+                    mostrarbombas(lista)
                 bombas_ao_redor = contar_bombas_ao_redor(botao, lista)
                 botao.config(background="#ffffff", text=str(bombas_ao_redor))
                 AbrirZeros(botao)
@@ -78,13 +92,10 @@ def AbrirZeros(botao):
     botaobaixo = get_button_below(botao,tamanho,lista)
     botaoesquerda = get_button_left(botao,tamanho,lista)
     botaodireita = get_button_right(botao,tamanho,lista)
-    if(contar_bombas_ao_redor(botaocima,lista) == 0):
+    if(contar_bombas_ao_redor(botao,lista) == 0):
         Clique(botaocima)
-    if(contar_bombas_ao_redor(botaobaixo,lista) == 0):
         Clique(botaobaixo)
-    if(contar_bombas_ao_redor(botaoesquerda,lista) == 0):
         Clique(botaoesquerda)
-    if(contar_bombas_ao_redor(botaodireita,lista) == 0):
         Clique(botaodireita)
     
               
